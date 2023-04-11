@@ -1,0 +1,10 @@
+/* TodoInput.css */
+.todo-input-form {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.input {
+    width: 99%;
+}

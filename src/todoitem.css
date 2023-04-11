@@ -1,0 +1,18 @@
+/* TodoItem.css */
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Hizalama düzeltmesi */
+    list-style-type: none; /* Noktalı işaretleri kaldır */
+    padding-left: 0; /* Sol padding'i kaldır */
+    margin-bottom: 0.5rem;
+}
+
+.todo-content {
+    display: flex;
+    align-items: center;
+}
+
+.todo-item input[type="checkbox"] {
+    margin-right: 1rem;
+}

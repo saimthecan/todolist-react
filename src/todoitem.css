@@ -1,0 +1,28 @@
+/* TodoItem.css */
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Hizalama düzeltmesi */
+    list-style-type: none; /* Noktalı işaretleri kaldır */
+    padding-left: 0; /* Sol padding'i kaldır */
+    margin-bottom: 0.5rem;
+}
+
+
+
+.todo-item input[type="checkbox"] {
+    margin-right: 1rem;
+}
+
+.todo-content {
+    display: inline-block;
+    align-items: center;
+    max-width: calc(100% - 70px); /* İkonlar ve dolgu için alan ayırın */
+    word-wrap: break-word; /* Kelimelerin satır sonunda kırılmasını sağlar */
+    vertical-align: middle; /* İçeriği dikey olarak hizalar */
+    flex: 1;
+}
+
+.delete-button {
+    margin-left: auto;
+}

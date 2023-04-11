@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 import "./app.css"
 
 function App() {
-  const [todos, setTodos] = useState([]);
+
+    const [todos, setTodos] = useState(() => {
+        const savedTodos = localStorage.getItem('todos');
+        return savedTodos ? JSON.parse(savedTodos) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos]);
+
+
   const [completedTodos, setCompletedTodos] = useState({});
   const [showNotification, setShowNotification] = useState(false);
   const [showDeletedNotification, setShowDeletedNotification] = useState(false);

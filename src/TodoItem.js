@@ -20,7 +20,7 @@ function TodoItem({ todo, isCompleted, onToggleCompletion, onDelete }) {
       </span>
             </div>
             <button className="delete-button" onClick={onDelete}>
-                Sil
+                Delete
             </button>
         </li>
     );

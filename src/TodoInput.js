@@ -16,11 +16,12 @@ function TodoInput({ onAddTodo }) {
         <div>
             <form onSubmit={handleSubmit} className="todo-input-form">
                 <input className="input"
+                placeholder='Add Todo'
                     type="text"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                 />
-                <button type="submit">Ekle</button>
+                <button type="submit">Add</button>
             </form>
         </div>
 

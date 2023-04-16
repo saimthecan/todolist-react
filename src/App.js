@@ -1,9 +1,35 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect, useMemo} from 'react';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 import "./app.css"
 
+
+function FilterInput({ onFilterChange }) {
+    const handleChange = (event) => {
+      onFilterChange(event.target.value);
+    };
+  
+    return (
+      <div className="filter-input">
+        <input
+          type="text"
+          placeholder="Filter todos..."
+          onChange={handleChange}
+        />
+      </div>
+    );
+  }
+
+
 function App() {
+
+    const [filterText, setFilterText] = useState('');
+
+    const handleFilterChange = (value) => {
+        setFilterText(value);
+      };
+    
+    
 
     const [todos, setTodos] = useState(() => {
         const savedTodos = localStorage.getItem('todos');
@@ -14,6 +40,12 @@ function App() {
         localStorage.setItem('todos', JSON.stringify(todos));
     }, [todos]);
 
+    const filteredTodos = useMemo(() => {
+        return todos.filter((todo) =>
+          todo.toLowerCase().includes(filterText.toLowerCase())
+        );
+      }, [todos, filterText]);
+
 
   const [completedTodos, setCompletedTodos] = useState({});
   const [showNotification, setShowNotification] = useState(false);
@@ -23,6 +55,7 @@ function App() {
   const [showDuplicateNotification, setShowDuplicateNotification] = useState(false);
 
     function toggleTodoCompletion(index) {
+        const currentTodo = todos[index];
         setCompletedTodos((prevCompletedTodos) => ({
             ...prevCompletedTodos,
             [index]: !prevCompletedTodos[index],
@@ -32,14 +65,18 @@ function App() {
             setShowReaddedNotification(true);
             setTimeout(() => {
                 setShowReaddedNotification(false); // 2 saniye sonra bildirimi gizle
-            }, 1200);
+            }, 2000);
         } else {
             setShowCompletedNotification(true);
             setTimeout(() => {
                 setShowCompletedNotification(false); // 2 saniye sonra bildirimi gizle
             }, 1200);
         }
+        setReaddedTodoName(currentTodo);
     }
+
+    const [readdedTodoName, setReaddedTodoName] = useState('');
+
     function addTodo(text) {
         if (todos.some(todo => todo === text)) {
             setShowDuplicateNotification(true);
@@ -56,6 +93,8 @@ function App() {
 
     }
 
+
+
   const deleteTodo = (index) => {
       setTodos((prevTodos) => prevTodos.filter((_, i) => i !== index));
 
@@ -71,47 +110,58 @@ function App() {
       }, 1200);
 
   };
+  
+
+  
 
   return (
       <div className="todo-app-container">
           <div className="todo-app">
-        <h1>Todo List</h1>
+
+        <h2>Todo List</h2>
         <TodoInput onAddTodo={addTodo} />
-        <ul>
-          {todos.map((todo, index) => (
-              <TodoItem key={index} todo={todo}
-                        isCompleted={completedTodos[index]}
-                        onToggleCompletion={() => toggleTodoCompletion(index)}
-                        onDelete={() => deleteTodo(index)} />
-          ))}
+        <FilterInput onFilterChange={handleFilterChange} />
+           <ul>
+          {filteredTodos.map((todo, index) => {
+            const originalIndex = todos.indexOf(todo);
+            return (
+              <TodoItem
+                key={originalIndex}
+                todo={todo}
+                isCompleted={completedTodos[originalIndex]}
+                onToggleCompletion={() => toggleTodoCompletion(originalIndex)}
+                onDelete={() => deleteTodo(originalIndex)}
+              />
+            );
+          })}
         </ul>
               {showNotification && (
                   <div className="notification">
-                      {"Todo başarıyla eklendi!"}
+                      {"Todo added successfully!"}
                   </div>
               )}
 
               {showDeletedNotification && (
                   <div className="notification deleted">
-                      {"Todo başarıyla silindi!"}
+                      {"Todo deleted successfully!"}
                   </div>
               )}
 
               {showCompletedNotification && (
                   <div className="notification completed">
-                      {"Todo tamamlandı!"}
+                      {"Todo completed successfully!"}
                   </div>
               )}
 
-              {showReaddedNotification && (
-                  <div className="notification readded">
-                      {"Yapılan todo geri eklendi!"}
-                  </div>
-              )}
+            {showReaddedNotification && (
+            <div className="notification readded">
+                {`You have to do '${readdedTodoName}' again`}
+            </div>
+        )}
 
               {showDuplicateNotification && (
                   <div className="notification duplicated">
-                      {"Bu Todo Zaten Eklendi!"}
+                      {"This has already been added!"}
                   </div>
               )}
           </div>

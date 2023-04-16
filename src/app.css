@@ -1,4 +1,8 @@
-/* TodoApp.css */
+html, body { 
+    margin: 0; 
+    padding: 0; 
+}
+
 .todo-app-container {
     display: flex;
     justify-content: center;
@@ -7,14 +11,17 @@
     width: 100vw;
     background-color: #f5f5f5;
 }
-/* TodoApp.css */
+
+.todo-app h2{
+    text-align: center;
+}
 .todo-app ul {
     padding-left: 0; /* Liste için sol iç boşluğu sıfırla */
 }
 
 
 .todo-app {
-    width: 60%;
+    width: 45%;
     background-color: white;
     padding: 2rem;
     border-radius: 1rem;
@@ -52,7 +59,14 @@
 }
 
 .notification.readded {
-    background-color: darkgreen;
+    background-color: rgb(159, 159, 38);
 
 }
 
+.notification.duplicated{
+    background-color: #681504;
+}
+
+.filter-input input {
+  margin-top: 0.5rem;
+  }
